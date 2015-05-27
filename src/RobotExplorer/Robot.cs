@@ -24,16 +24,6 @@ namespace RobotExplorer
     public class Robot
     {
         /// <summary>
-        /// The robot's current X coordinates.
-        /// </summary>
-        private static int xPos = 0;
-
-        /// <summary>
-        /// The robot's current Y coordinates.
-        /// </summary>
-        private static int yPos = 0;
-
-        /// <summary>
         /// The robot's current direction.
         /// </summary>
         private static Direction direction = Direction.N;
@@ -41,15 +31,58 @@ namespace RobotExplorer
         /// <summary>
         /// Creates a new instance of <see cref="Robot"/>.
         /// </summary>
-        /// <param name="xCoord">The robot's initial X coordinates position.</param>
-        /// <param name="yCoord">The robot's initial Y coordinates position.</param>
-        /// <param name="dir">The robot's initial direction.</param>
-        public Robot(int xCoord, int yCoord, Direction dir)
+        /// <param name="xPos">The robot's initial X coordinate position.</param>
+        /// <param name="yPos">The robot's initial Y coordinate position.</param>
+        /// <param name="direction">The robot's initial direction.</param>
+        public Robot(int xPos, int yPos, Direction direction)
         {
             // TODO: Catch args exception
-            xPos = xCoord;
-            yPos = yCoord;
-            direction = dir;
+            this.XPos = xPos;
+            this.YPos = yPos;
+            this.Direction = direction;
+        }
+
+        /// <summary>
+        /// Gets the robot's current X coordinate.
+        /// </summary>
+        public int XPos { get; private set; }
+
+        /// <summary>
+        /// Gets the robot's current Y coordinate.
+        /// </summary>
+        public int YPos { get; private set; }
+
+        /// <summary>
+        /// Gets the robot's current direction.
+        /// </summary>
+        public Direction Direction { get; private set; }
+
+        /// <summary>
+        /// Robot will turn and face left.
+        /// </summary>
+        public void FaceLeft()
+        {
+            // Logic simplification. Instead of four ifs / switch case,
+            // more concise to reduce the direction angle by 90 degrees
+            // and cast back to enum.
+            this.Direction =
+                this.Direction == Direction.N
+                    ? Direction.W
+                    : (Direction)((int)this.Direction - 90);
+        }
+
+        /// <summary>
+        /// Robot will turn and face right.
+        /// </summary>
+        public void FaceRight()
+        {
+            // Logic simplification. Instead of four ifs / switch case,
+            // more concise to increase the direction angle by 90 degrees
+            // and cast back to enum.
+            this.Direction =
+                this.Direction == Direction.W
+                    ? Direction.N
+                    : (Direction)((int)this.Direction + 90);
         }
     }
 }
