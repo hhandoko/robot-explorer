@@ -1,4 +1,4 @@
-`robot-explorer` is a .NET solution to the following programming challenge.
+`robot-explorer` is a .NET solution to the robotic explorer navigation programming challenge.
 
 ---
 ### CONTEXT:
@@ -44,12 +44,16 @@ The output for each explorer should be its final co-ordinates and heading.
 ---
 ### COMMAND LINE INPUT AND OUTPUT:
 **Test Input:**
+```
 5 5
 1 2 N
 LMLMLMLMM
 3 3 E
 MMRMMRMRRM
+```
 
 **Expected Output:**
+```
 1 3 N
 5 1 E
+```
