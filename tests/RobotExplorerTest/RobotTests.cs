@@ -67,5 +67,27 @@ namespace RobotExplorerTest
             // Assert
             Assert.AreEqual(robot.Direction, expectedResult);
         }
+
+        /// <summary>
+        /// Test if the robot can process forward move commands successfully.
+        /// </summary>
+        /// <param name="initialDirection">The initial direction.</param>
+        /// <param name="initPos">The initial X, Y coordinate as array.</param>
+        /// <param name="expectedPos">The expected X, Y coordinate as array result.</param>
+        [TestCase(Direction.N, new[] { 2, 2 }, new[] { 2, 3 })]
+        [TestCase(Direction.E, new[] { 2, 2 }, new[] { 3, 2 })]
+        [TestCase(Direction.S, new[] { 2, 2 }, new[] { 2, 1 })]
+        [TestCase(Direction.W, new[] { 2, 2 }, new[] { 1, 2 })]
+        public void CanMoveForward(Direction initialDirection, int[] initPos, int[] expectedPos)
+        {
+            // Arrange
+            var robot = new Robot(initPos[0], initPos[1], initialDirection);
+
+            // Act
+            robot.MoveForward();
+
+            // Assert
+            Assert.AreEqual(new[] { robot.XPos, robot.YPos}, expectedPos);
+        }
     }
 }

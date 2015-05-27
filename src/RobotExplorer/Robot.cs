@@ -84,5 +84,30 @@ namespace RobotExplorer
                     ? Direction.N
                     : (Direction)((int)this.Direction + 90);
         }
+
+        /// <summary>
+        /// Robot will move forward one coordinate point.
+        /// </summary>
+        public void MoveForward()
+        {
+            switch (this.Direction)
+            {
+                case Direction.N:
+                    this.YPos++;
+                    break;
+
+                case Direction.S:
+                    this.YPos--;
+                    break;
+
+                case Direction.E:
+                    this.XPos++;
+                    break;
+
+                case Direction.W:
+                    this.XPos--;
+                    break;
+            }
+        }
     }
 }
