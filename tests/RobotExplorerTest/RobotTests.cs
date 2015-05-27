@@ -17,6 +17,8 @@
 // -----------------------------------------------------------------------
 namespace RobotExplorerTest
 {
+    using System;
+
     using NUnit.Framework;
 
     using RobotExplorer;
@@ -88,6 +90,52 @@ namespace RobotExplorerTest
 
             // Assert
             Assert.AreEqual(new[] { robot.XPos, robot.YPos}, expectedPos);
+        }
+        
+        /// <summary>
+        /// Test if the robot can process command successfully.
+        /// </summary>
+        /// <param name="initialDirection">The initial direction.</param>
+        /// <param name="initPos">The initial X, Y coordinate as array.</param>
+        /// <param name="command">The move command.</param>
+        /// <param name="expectedDirection">The expected direction.</param>
+        /// <param name="expectedPos">The expected X, Y coordinate as array.</param>
+        [TestCase(Direction.N, new[] { 2, 2 }, 'L', Direction.W, new[] { 2, 2 })]
+        [TestCase(Direction.N, new[] { 2, 2 }, 'R', Direction.E, new[] { 2, 2 })]
+        [TestCase(Direction.N, new[] { 2, 2 }, 'M', Direction.N, new[] { 2, 3 })]
+        public void CanMoveOnCommand(Direction initialDirection, int[] initPos, char command, Direction expectedDirection, int[] expectedPos)
+        {
+            // Arrange
+            var initialState = new Robot(initPos[0], initPos[1], initialDirection);
+            var expectedState = new Robot(expectedPos[0], expectedPos[1], expectedDirection);
+
+            // Act
+            initialState.Move(command);
+
+            // Assert
+            Assert.AreEqual(
+                new[] { initialState.XPos, initialState.YPos, (int)initialState.Direction },
+                new[] { expectedState.XPos, expectedState.YPos, (int)expectedState.Direction });
+        }
+
+        /// <summary>
+        /// Test if an exception will be thrown on invalid move command.
+        /// </summary>
+        /// <param name="command">The move command.</param>
+        [TestCase('X')]
+        [TestCase('c')]
+        [TestCase('1')]
+        [TestCase('#')]
+        public void ThrowExceptionOnInvalidCommand(char command)
+        {
+            // Arrange
+            var robot = new Robot(0, 0, Direction.N);
+
+            // Act + Assert
+            Assert.Throws<ArgumentException>(delegate
+            {
+                robot.Move(command);
+            });
         }
     }
 }

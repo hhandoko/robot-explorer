@@ -18,6 +18,8 @@
 
 namespace RobotExplorer
 {
+    using System;
+
     /// <summary>
     /// The robot explorer.
     /// </summary>
@@ -56,6 +58,31 @@ namespace RobotExplorer
         /// Gets the robot's current direction.
         /// </summary>
         public Direction Direction { get; private set; }
+
+        /// <summary>
+        /// Move the robot based on a given command.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        public void Move(char command)
+        {
+            switch (command)
+            {
+                case 'L':
+                    this.FaceLeft();
+                    break;
+
+                case 'R':
+                    this.FaceRight();
+                    break;
+
+                case 'M':
+                    this.MoveForward();
+                    break;
+
+                default:
+                    throw new ArgumentException();
+            }
+        }
 
         /// <summary>
         /// Robot will turn and face left.
