@@ -85,6 +85,18 @@ namespace RobotExplorer
         }
 
         /// <summary>
+        /// Move the robot based on a sequence of commands.
+        /// </summary>
+        /// <param name="commands">The command sequence.</param>
+        public void Move(string commands)
+        {
+            foreach (var c in commands.ToCharArray())
+            {
+                this.Move(c);
+            }
+        }
+
+        /// <summary>
         /// Robot will turn and face left.
         /// </summary>
         public void FaceLeft()

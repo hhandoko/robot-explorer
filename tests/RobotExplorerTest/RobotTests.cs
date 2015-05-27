@@ -103,7 +103,12 @@ namespace RobotExplorerTest
         [TestCase(Direction.N, new[] { 2, 2 }, 'L', Direction.W, new[] { 2, 2 })]
         [TestCase(Direction.N, new[] { 2, 2 }, 'R', Direction.E, new[] { 2, 2 })]
         [TestCase(Direction.N, new[] { 2, 2 }, 'M', Direction.N, new[] { 2, 3 })]
-        public void CanMoveOnCommand(Direction initialDirection, int[] initPos, char command, Direction expectedDirection, int[] expectedPos)
+        public void CanMoveOnCommand(
+            Direction initialDirection,
+            int[] initPos,
+            char command,
+            Direction expectedDirection,
+            int[] expectedPos)
         {
             // Arrange
             var initialState = new Robot(initPos[0], initPos[1], initialDirection);
@@ -136,6 +141,36 @@ namespace RobotExplorerTest
             {
                 robot.Move(command);
             });
+        }
+
+        /// <summary>
+        /// Test if the robot can process a sequence of command successfully.
+        /// </summary>
+        /// <param name="initialDirection">The initial direction.</param>
+        /// <param name="initPos">The initial X, Y coordinate as array.</param>
+        /// <param name="commands">The move command sequence.</param>
+        /// <param name="expectedDirection">The expected direction.</param>
+        /// <param name="expectedPos">The expected X, Y coordinate as array.</param>
+        [TestCase(Direction.N, new[] { 1, 2 }, "LMLMLMLMM", Direction.N, new[] { 1, 3 })]
+        [TestCase(Direction.E, new[] { 3, 3 }, "MMRMMRMRRM", Direction.E, new[] { 5, 1 })]
+        public void CanMoveOnCommandSequence(
+            Direction initialDirection,
+            int[] initPos,
+            string commands,
+            Direction expectedDirection,
+            int[] expectedPos)
+        {
+            // Arrange
+            var initialState = new Robot(initPos[0], initPos[1], initialDirection);
+            var expectedState = new Robot(expectedPos[0], expectedPos[1], expectedDirection);
+
+            // Act
+            initialState.Move(commands);
+
+            // Assert
+            Assert.AreEqual(
+                new[] { initialState.XPos, initialState.YPos, (int)initialState.Direction },
+                new[] { expectedState.XPos, expectedState.YPos, (int)expectedState.Direction });
         }
     }
 }
