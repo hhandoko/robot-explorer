@@ -26,11 +26,6 @@ namespace RobotExplorer
     public class Robot
     {
         /// <summary>
-        /// The robot's current direction.
-        /// </summary>
-        private static Direction direction = Direction.N;
-
-        /// <summary>
         /// Creates a new instance of <see cref="Robot"/>.
         /// </summary>
         /// <param name="xPos">The robot's initial X coordinate position.</param>
@@ -42,6 +37,17 @@ namespace RobotExplorer
             this.XPos = xPos;
             this.YPos = yPos;
             this.Direction = direction;
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="Robot"/>.
+        /// </summary>
+        /// <param name="landingPosition">The robot's landing position as a triple.</param>
+        public Robot(Tuple<int, int, Direction> landingPosition)
+        {
+            this.XPos = landingPosition.Item1;
+            this.YPos = landingPosition.Item2;
+            this.Direction = landingPosition.Item3;
         }
 
         /// <summary>

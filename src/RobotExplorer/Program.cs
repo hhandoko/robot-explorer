@@ -34,39 +34,34 @@ namespace RobotExplorer
         {
             try
             {
-                // Prepare terrain
-                var terrainBoundaryInput = Console.ReadLine();
-
-                Tuple<int, int> terrainBoundary;
-                TryParseTerrainBoundary(terrainBoundaryInput, out terrainBoundary);
-                var terrain = new Terrain(terrainBoundary.Item1, terrainBoundary.Item2);
+                ConsoleWriteHeader("Input");
+                // Get Terrain's boundary input and create it!
                 // TODO: Terrain's boundary checks when robot moves
+                var terrainBoundaryInput = Console.ReadLine();
+                var terrainBoundary = terrainBoundaryInput.TryParseTerrainBoundary();
+                var terrain = new Terrain(terrainBoundary);
 
-                // Robot #1
+                // Get Robot #1 landing position and create it!
                 var robot1LandingInput = Console.ReadLine();
-                var robot1Commands = Console.ReadLine();
+                var robot1Position = robot1LandingInput.TryParseRobotLandingPosition();
+                var robot1 = new Robot(robot1Position);
 
-                Tuple<int, int, Direction> robot1LandingPosition;
-                TryParseRobotLandingPosition(robot1LandingInput, out robot1LandingPosition);
-                var robot1 = new Robot(
-                    robot1LandingPosition.Item1,
-                    robot1LandingPosition.Item2,
-                    robot1LandingPosition.Item3);
+                // Move Robot #1
+                var robot1Commands = Console.ReadLine();
                 robot1.Move(robot1Commands);
                 
-                // Robot #2
+                // Get Robot #2 landing position and create it!
                 var robot2LandingInput = Console.ReadLine();
-                var robot2Commands = Console.ReadLine();
+                var robot2Position = robot2LandingInput.TryParseRobotLandingPosition();
+                var robot2 = new Robot(robot2Position);
 
-                Tuple<int, int, Direction> robot2LandingPosition;
-                TryParseRobotLandingPosition(robot2LandingInput, out robot2LandingPosition);
-                var robot2 = new Robot(
-                    robot2LandingPosition.Item1,
-                    robot2LandingPosition.Item2,
-                    robot2LandingPosition.Item3);
+                // Move Robot #2
+                var robot2Commands = Console.ReadLine();
                 robot2.Move(robot2Commands);
 
-                // Write output
+                // Write results
+                Console.WriteLine();
+                ConsoleWriteHeader("Output");
                 Console.WriteLine("{0} {1} {2}", robot1.XPos, robot1.YPos, robot1.Direction);
                 Console.WriteLine("{0} {1} {2}", robot2.XPos, robot2.YPos, robot2.Direction);
 
@@ -74,6 +69,8 @@ namespace RobotExplorer
             }
             catch (Exception e)
             {
+                ConsoleWriteHeader("Error", ConsoleColor.Red);
+
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(e);
                 Console.ForegroundColor = ConsoleColor.White;
@@ -85,11 +82,28 @@ namespace RobotExplorer
         }
 
         /// <summary>
+        /// Write formatted section header.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="color">The text color.</param>
+        private static void ConsoleWriteHeader(string input, ConsoleColor color = ConsoleColor.Green)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine("[{0}]", input.ToUpperInvariant());
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+    }
+
+    /// <summary>
+    /// The console application method extensions.
+    /// </summary>
+    internal static class ProgramExtension
+    {
+        /// <summary>
         /// Validate the terrain boundary input and parse to X, Y coordinates.
         /// </summary>
         /// <param name="input">The input.</param>
-        /// <param name="boundary">The terrain boundary.</param>
-        private static void TryParseTerrainBoundary(string input, out Tuple<int, int> boundary)
+        public static Tuple<int, int> TryParseTerrainBoundary(this string input)
         {
             // Validate against empty input
             if (input == null || input.Length <= 0)
@@ -105,7 +119,7 @@ namespace RobotExplorer
             }
 
             var coordinates = input.Trim().Split(' ');
-            boundary = Tuple.Create(
+            return Tuple.Create(
                 Convert.ToInt32(coordinates[0]),
                 Convert.ToInt32(coordinates[1]));
         }
@@ -114,8 +128,7 @@ namespace RobotExplorer
         /// Validate the robot's landing position input and parse to X, Y coordinates and direction.
         /// </summary>
         /// <param name="input">The input.</param>
-        /// <param name="position">The robot's landing position.</param>
-        private static void TryParseRobotLandingPosition(string input, out Tuple<int, int, Direction> position)
+        public static Tuple<int, int, Direction> TryParseRobotLandingPosition(this string input)
         {
             // Validate against empty input
             if (input == null || input.Length <= 0)
@@ -131,7 +144,7 @@ namespace RobotExplorer
             }
 
             var coordinates = input.Trim().Split(' ');
-            position = Tuple.Create(
+            return Tuple.Create(
                 Convert.ToInt32(coordinates[0]),
                 Convert.ToInt32(coordinates[1]),
                 coordinates[2].ToDirection());

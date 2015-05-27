@@ -18,6 +18,7 @@
 
 namespace RobotExplorer
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -26,16 +27,6 @@ namespace RobotExplorer
     public class Terrain
     {
         /// <summary>
-        /// The terrain's X coordinate boundary.
-        /// </summary>
-        private static int xBound = 10;
-
-        /// <summary>
-        /// The terrain's Y coordinate boundary.
-        /// </summary>
-        private static int yBound = 10;
-
-        /// <summary>
         /// Creates a new instance of <see cref="Terrain"/>.
         /// </summary>
         /// <param name="xCoord">The terrain's X coordinate boundary.</param>
@@ -43,9 +34,29 @@ namespace RobotExplorer
         public Terrain(int xCoord, int yCoord)
         {
             // TODO: Catch args exception
-            xBound = xCoord;
-            yBound = yCoord;
+            this.XBoundary = xCoord;
+            this.YBoundary = yCoord;
         }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="Terrain"/>.
+        /// </summary>
+        /// <param name="boundary">The terrain's X, Y coordinates as a double.</param>
+        public Terrain(Tuple<int, int> boundary)
+        {
+            this.XBoundary = boundary.Item1;
+            this.YBoundary = boundary.Item2;
+        }
+
+        /// <summary>
+        /// Gets or sets the X coordinate boundary.
+        /// </summary>
+        public int XBoundary { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the Y coordinate boundary.
+        /// </summary>
+        public int YBoundary { get; private set; }
 
         /// <summary>
         /// The terrain's robots.
