@@ -18,6 +18,8 @@
 
 namespace RobotExplorer
 {
+    using System;
+
     /// <summary>
     /// The robot's compass direction.
     /// </summary>
@@ -42,5 +44,37 @@ namespace RobotExplorer
         /// Facing West.
         /// </summary>
         W = 270
+    }
+
+    /// <summary>
+    /// The Direction extension methods.
+    /// </summary>
+    public static class DirectionExtension
+    {
+        /// <summary>
+        /// Converts a single character string to the Direction equivalent.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns>The <see cref="Direction"/>.</returns>
+        public static Direction ToDirection(this string input)
+        {
+            switch (input)
+            {
+                case "N":
+                    return Direction.N;
+
+                case "E":
+                    return Direction.E;
+
+                case "S":
+                    return Direction.S;
+
+                case "W":
+                    return Direction.W;
+
+                default:
+                    throw new ArgumentException();
+            }
+        }
     }
 }

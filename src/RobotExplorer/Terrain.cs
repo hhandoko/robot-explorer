@@ -18,6 +18,8 @@
 
 namespace RobotExplorer
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// The exploration's terrain / grid.
     /// </summary>
@@ -44,5 +46,10 @@ namespace RobotExplorer
             xBound = xCoord;
             yBound = yCoord;
         }
+
+        /// <summary>
+        /// The terrain's robots.
+        /// </summary>
+        public Dictionary<int, Robot> Robots { get; set; }
     }
 }
