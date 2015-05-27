@@ -44,6 +44,7 @@ namespace RobotExplorer
 
                 // Robot #1
                 var robot1LandingInput = Console.ReadLine();
+                var robot1Commands = Console.ReadLine();
 
                 Tuple<int, int, Direction> robot1LandingPosition;
                 TryParseRobotLandingPosition(robot1LandingInput, out robot1LandingPosition);
@@ -51,13 +52,11 @@ namespace RobotExplorer
                     robot1LandingPosition.Item1,
                     robot1LandingPosition.Item2,
                     robot1LandingPosition.Item3);
-
-                var robot1Commands = Console.ReadLine();
                 robot1.Move(robot1Commands);
-                Console.WriteLine("{0} {1} {2}", robot1.XPos, robot1.YPos, robot1.Direction);
                 
                 // Robot #2
                 var robot2LandingInput = Console.ReadLine();
+                var robot2Commands = Console.ReadLine();
 
                 Tuple<int, int, Direction> robot2LandingPosition;
                 TryParseRobotLandingPosition(robot2LandingInput, out robot2LandingPosition);
@@ -65,16 +64,19 @@ namespace RobotExplorer
                     robot2LandingPosition.Item1,
                     robot2LandingPosition.Item2,
                     robot2LandingPosition.Item3);
-
-                var robot2Commands = Console.ReadLine();
                 robot2.Move(robot2Commands);
+
+                // Write output
+                Console.WriteLine("{0} {1} {2}", robot1.XPos, robot1.YPos, robot1.Direction);
                 Console.WriteLine("{0} {1} {2}", robot2.XPos, robot2.YPos, robot2.Direction);
 
                 // TODO: Refactor robot 1 & 2 into common methods
             }
             catch (Exception e)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(e);
+                Console.ForegroundColor = ConsoleColor.White;
             }
 
             Console.WriteLine();
